@@ -1,6 +1,9 @@
 package edu.javacourse.student.domain;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * @author Kovalyov Anton 23.05.2022
@@ -9,7 +12,6 @@ import javax.persistence.*;
 @Table(name = "street")
 public class Street {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "street_code")
     private Long streetCode;
     @Column(name = "street_name")

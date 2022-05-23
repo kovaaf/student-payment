@@ -1,6 +1,5 @@
 package edu.javacourse.student.domain;
 
-import javax.persistence.Embeddable;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDate;
 
