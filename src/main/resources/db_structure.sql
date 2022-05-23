@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS register_office;
 DROP TABLE IF EXISTS country_struct;
 DROP TABLE IF EXISTS university;
 DROP TABLE IF EXISTS street;
+DROP TABLE IF EXISTS order_status;
 
 CREATE TABLE street (
 	street_code integer not null,
@@ -42,9 +43,15 @@ CREATE TABLE register_office (
 	FOREIGN KEY (r_office_area_id) REFERENCES country_struct(area_id) ON DELETE RESTRICT
 );
 
+CREATE TABLE order_status (
+    status_id integer not null,
+    status_name varchar(20),
+    PRIMARY KEY (status_id)
+);
+
 CREATE TABLE student_order (
 	student_order_id SERIAL,
-	student_order_status int not null,
+	student_order_status_id int not null,
 	student_order_date timestamp not null,
 	h_sur_name varchar(100) not null,
 	h_given_name varchar(100) not null,
@@ -76,10 +83,11 @@ CREATE TABLE student_order (
 	w_apartment varchar(10),
 	w_university_id integer not null,
 	w_student_number varchar(30) not null,
-	certificate_id varchar(20) not null,
+	certificate_number varchar(20) not null,
 	register_office_id integer not null,
 	marriage_date date not null,
 	PRIMARY KEY (student_order_id),
+	FOREIGN KEY (student_order_status_id) REFERENCES order_status(status_id) ON DELETE RESTRICT,
 	FOREIGN KEY (h_street_code) REFERENCES street(street_code) ON DELETE RESTRICT,
 	FOREIGN KEY (w_street_code) REFERENCES street(street_code) ON DELETE RESTRICT,
 	FOREIGN KEY (register_office_id) REFERENCES register_office(r_office_id) ON DELETE RESTRICT,
@@ -110,38 +118,6 @@ CREATE TABLE student_child (
 	FOREIGN KEY (c_register_office_id) REFERENCES register_office(r_office_id) ON DELETE RESTRICT
 );
 
-CREATE INDEX idx_student_order_status ON student_order(student_order_status);
+CREATE INDEX idx_student_order_status_id ON student_order(student_order_status_id);
 
 CREATE INDEX idx_student_order_id ON student_child(student_order_id);
-
-DROP TABLE IF EXISTS student_order_tmp;
-CREATE TABLE student_order_tmp (
-	student_order_id SERIAL,
-	h_sur_name varchar(100) not null,
-	h_given_name varchar(100) not null,
-	h_patronymic varchar(100) not null,
-	h_date_of_birth date not null,
-	h_passport_seria varchar(10) not null,
-	h_passport_number varchar(10) not null,
-	h_passport_date date not null,
-	h_post_index varchar(10),
-	h_street_code integer not null,
-	h_building varchar(10) not null,
-	h_extension varchar(10),
-	h_apartment varchar(10),
-	w_sur_name varchar(100) not null,
-	w_given_name varchar(100) not null,
-	w_patronymic varchar(100) not null,
-	w_date_of_birth date not null,
-	w_passport_seria varchar(10) not null,
-	w_passport_number varchar(10) not null,
-	w_passport_date date not null,
-	w_post_index varchar(10),
-    w_street_code integer not null,
-	w_building varchar(10) not null,
-	w_extension varchar(10),
-	w_apartment varchar(10),
-	PRIMARY KEY (student_order_id),
-	FOREIGN KEY (h_street_code) REFERENCES street(street_code) ON DELETE RESTRICT,
-	FOREIGN KEY (w_street_code) REFERENCES street(street_code) ON DELETE RESTRICT
-);

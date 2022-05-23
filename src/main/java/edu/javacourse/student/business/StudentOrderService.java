@@ -1,7 +1,6 @@
 package edu.javacourse.student.business;
 
-import edu.javacourse.student.dao.StreetRepository;
-import edu.javacourse.student.dao.StudentOrderRepository;
+import edu.javacourse.student.dao.*;
 import edu.javacourse.student.domain.Address;
 import edu.javacourse.student.domain.Adult;
 import edu.javacourse.student.domain.Street;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -22,20 +22,39 @@ import java.util.List;
 public class StudentOrderService {
     private static final Logger LOGGER = LoggerFactory.getLogger(StudentOrderService.class);
     @Autowired
-    private StudentOrderRepository dao;
+    private StudentOrderRepository daoOrder;
     @Autowired
     private StreetRepository daoStreet;
+    @Autowired
+    private StudentOrderStatusRepository daoStatus;
+    @Autowired
+    private RegisterOfficeRepository daoRegisterOffice;
+    @Autowired
+    private PassportOfficeRepository daoPassportOffice;
+    @Autowired
+    private CountryAreaRepository daoCountryArea;
+    @Autowired
+    private UniversityRepository daoUniversity;
+
 
     @Transactional
     public void testSave() {
         StudentOrder studentOrder = new StudentOrder();
+        studentOrder.setOrderDate(LocalDateTime.now());
+        studentOrder.setOrderStatus(daoStatus.getById(1L));
+
         studentOrder.setHusband(buildPerson(false));
         studentOrder.setWife(buildPerson(true));
-        dao.save(studentOrder);
+
+        studentOrder.setCertificateNumber("CERTIFICATE NUMBER");
+        studentOrder.setRegisterOffice(daoRegisterOffice.getById(1L));
+        studentOrder.setMarriageDate(LocalDate.now());
+
+        daoOrder.save(studentOrder);
     }
     @Transactional
     public void testGet() {
-        List<StudentOrder> studentOrders = dao.findAll();
+        List<StudentOrder> studentOrders = daoOrder.findAll();
         LOGGER.info(studentOrders.get(0).getWife().getGivenName());
     }
 
@@ -58,14 +77,20 @@ public class StudentOrderService {
             adult.setPatronymic("Васильевна");
             adult.setPassportSeria("WIFE_S");
             adult.setPassportNumber("WIFE_N");
+            adult.setPassportOffice(daoPassportOffice.getById(1L));
             adult.setIssueDate(LocalDate.now());
+            adult.setStudentNumber("12345");
+            adult.setUniversity(daoUniversity.getById(1L));
         } else {
             adult.setSurName("Рюрик");
             adult.setGivenName("Иван");
             adult.setPatronymic("Васильевич");
             adult.setPassportSeria("HUSB_S");
             adult.setPassportNumber("HUSB_N");
+            adult.setPassportOffice(daoPassportOffice.getById(1L));
             adult.setIssueDate(LocalDate.now());
+            adult.setStudentNumber("67890");
+            adult.setUniversity(daoUniversity.getById(1L));
         }
 
         return adult;
