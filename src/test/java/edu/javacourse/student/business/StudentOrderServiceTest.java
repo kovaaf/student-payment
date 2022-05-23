@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.*;
-
 /**
  * @author Kovalyov Anton 20.05.2022
  */
@@ -18,6 +16,7 @@ public class StudentOrderServiceTest {
     private StudentOrderService service;
     @Test
     public void testService() {
-        service.test();
+        service.testSave();
+        service.testGet();
     }
 }

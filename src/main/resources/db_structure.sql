@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS register_office;
 DROP TABLE IF EXISTS country_struct;
 DROP TABLE IF EXISTS university;
 DROP TABLE IF EXISTS street;
+DROP TABLE IF EXISTS student_order_tmp;
 
 CREATE TABLE street (
 	street_code integer not null,
@@ -113,3 +114,16 @@ CREATE TABLE student_child (
 CREATE INDEX idx_student_order_status ON student_order(student_order_status);
 
 CREATE INDEX idx_student_order_id ON student_child(student_order_id);
+
+CREATE TABLE student_order_tmp (
+	student_order_id SERIAL,
+	h_sur_name varchar(100) not null,
+	h_given_name varchar(100) not null,
+	h_patronymic varchar(100) not null,
+	h_date_of_birth date not null,
+	w_sur_name varchar(100) not null,
+	w_given_name varchar(100) not null,
+	w_patronymic varchar(100) not null,
+	w_date_of_birth date not null,
+	PRIMARY KEY (student_order_id)
+);
