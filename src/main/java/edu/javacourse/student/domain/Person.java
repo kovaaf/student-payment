@@ -1,14 +1,14 @@
 package edu.javacourse.student.domain;
 
-import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
+import javax.persistence.MappedSuperclass;
 import java.time.LocalDate;
 
 /**
  * @author Kovalyov Anton 23.05.2022
  */
-@Embeddable
-public class Person {
+@MappedSuperclass
+public abstract class Person {
     private String surName;
     private String givenName;
     private String patronymic;

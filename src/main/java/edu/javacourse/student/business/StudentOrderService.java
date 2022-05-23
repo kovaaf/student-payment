@@ -3,7 +3,7 @@ package edu.javacourse.student.business;
 import edu.javacourse.student.dao.StreetRepository;
 import edu.javacourse.student.dao.StudentOrderRepository;
 import edu.javacourse.student.domain.Address;
-import edu.javacourse.student.domain.Person;
+import edu.javacourse.student.domain.Adult;
 import edu.javacourse.student.domain.Street;
 import edu.javacourse.student.domain.StudentOrder;
 import org.slf4j.Logger;
@@ -39,29 +39,35 @@ public class StudentOrderService {
         LOGGER.info(studentOrders.get(0).getWife().getGivenName());
     }
 
-    private Person buildPerson(boolean wife) {
-        Person p = new Person();
-        p.setDateOfBirth(LocalDate.now());
+    private Adult buildPerson(boolean wife) {
+        Adult adult = new Adult();
+        adult.setDateOfBirth(LocalDate.now());
 
-        Address a = new Address();
-        a.setPostCode("190000");
-        a.setBuilding("21");
-        a.setExtension("B");
-        a.setApartment("190");
-        p.setAddress(a);
+        Address address = new Address();
+        address.setPostCode("190000");
+        address.setBuilding("21");
+        address.setExtension("B");
+        address.setApartment("190");
+        adult.setAddress(address);
         Street street = daoStreet.getById(1L);
-        a.setStreet(street);
+        address.setStreet(street);
 
         if (wife) {
-            p.setSurName("Рюрик");
-            p.setGivenName("Марфа");
-            p.setPatronymic("Васильевна");
+            adult.setSurName("Рюрик");
+            adult.setGivenName("Марфа");
+            adult.setPatronymic("Васильевна");
+            adult.setPassportSeria("WIFE_S");
+            adult.setPassportNumber("WIFE_N");
+            adult.setIssueDate(LocalDate.now());
         } else {
-            p.setSurName("Рюрик");
-            p.setGivenName("Иван");
-            p.setPatronymic("Васильевич");
+            adult.setSurName("Рюрик");
+            adult.setGivenName("Иван");
+            adult.setPatronymic("Васильевич");
+            adult.setPassportSeria("HUSB_S");
+            adult.setPassportNumber("HUSB_N");
+            adult.setIssueDate(LocalDate.now());
         }
 
-        return p;
+        return adult;
     }
 }
