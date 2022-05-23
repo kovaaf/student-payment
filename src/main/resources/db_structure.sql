@@ -5,7 +5,6 @@ DROP TABLE IF EXISTS register_office;
 DROP TABLE IF EXISTS country_struct;
 DROP TABLE IF EXISTS university;
 DROP TABLE IF EXISTS street;
-DROP TABLE IF EXISTS student_order_tmp;
 
 CREATE TABLE street (
 	street_code integer not null,
@@ -115,15 +114,28 @@ CREATE INDEX idx_student_order_status ON student_order(student_order_status);
 
 CREATE INDEX idx_student_order_id ON student_child(student_order_id);
 
+DROP TABLE IF EXISTS student_order_tmp;
 CREATE TABLE student_order_tmp (
 	student_order_id SERIAL,
 	h_sur_name varchar(100) not null,
 	h_given_name varchar(100) not null,
 	h_patronymic varchar(100) not null,
 	h_date_of_birth date not null,
+	h_post_index varchar(10),
+	h_street_code integer not null,
+	h_building varchar(10) not null,
+	h_extension varchar(10),
+	h_apartment varchar(10),
 	w_sur_name varchar(100) not null,
 	w_given_name varchar(100) not null,
 	w_patronymic varchar(100) not null,
 	w_date_of_birth date not null,
-	PRIMARY KEY (student_order_id)
+	w_post_index varchar(10),
+    w_street_code integer not null,
+	w_building varchar(10) not null,
+	w_extension varchar(10),
+	w_apartment varchar(10),
+	PRIMARY KEY (student_order_id),
+	FOREIGN KEY (h_street_code) REFERENCES street(street_code) ON DELETE RESTRICT,
+	FOREIGN KEY (w_street_code) REFERENCES street(street_code) ON DELETE RESTRICT
 );

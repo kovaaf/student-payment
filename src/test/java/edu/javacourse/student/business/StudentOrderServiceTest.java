@@ -1,5 +1,6 @@
 package edu.javacourse.student.business;
 
+import edu.javacourse.student.dao.StreetRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
