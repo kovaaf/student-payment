@@ -9,7 +9,6 @@ import java.time.LocalDate;
 /**
  * @author Kovalyov Anton 23.05.2022
  */
-@MappedSuperclass
 public class Adult extends Person {
     private String passportSeria;
     private String passportNumber;

@@ -57,7 +57,7 @@ public class StudentOrderService {
     public void testGet() {
         List<StudentOrder> studentOrders = daoOrder.findAll();
         LOGGER.info(studentOrders.get(0).getWife().getGivenName());
-        LOGGER.info(studentOrders.get(0).getChildren().get(0).getGivenName());
+        LOGGER.info(studentOrders.get(0).getChildren().get(0).getChild().getGivenName());
 
     }
 
@@ -98,7 +98,9 @@ public class StudentOrderService {
 
         return adult;
     }
-    private Child buildChild(StudentOrder studentOrder) {
+    private StudentOrderChild buildChild(StudentOrder studentOrder) {
+        StudentOrderChild studentOrderChild = new StudentOrderChild();
+
         Child child = new Child();
         child.setDateOfBirth(LocalDate.now());
 
@@ -119,8 +121,9 @@ public class StudentOrderService {
         child.setCertificateNumber("BIRTH NUM");
         child.setRegisterOffice(daoRegisterOffice.getById(1L));
 
-        child.setStudentOrder(studentOrder);
+        studentOrderChild.setStudentOrder(studentOrder);
+        studentOrderChild.setChild(child);
 
-        return child;
+        return studentOrderChild;
     }
 }

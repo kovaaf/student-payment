@@ -72,7 +72,7 @@ public class StudentOrder {
     @Column(name = "marriage_date")
     private LocalDate marriageDate;
     @OneToMany(cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.LAZY, mappedBy = "studentOrder")
-    private List<Child> children;
+    private List<StudentOrderChild> studentOrderChildren;
 
     public Long getStudentOrderId() {
         return studentOrderId;
@@ -138,11 +138,11 @@ public class StudentOrder {
         this.marriageDate = marriageDate;
     }
 
-    public List<Child> getChildren() {
-        return children;
+    public List<StudentOrderChild> getChildren() {
+        return studentOrderChildren;
     }
 
-    public void setChildren(List<Child> children) {
-        this.children = children;
+    public void setChildren(List<StudentOrderChild> studentOrderChildren) {
+        this.studentOrderChildren = studentOrderChildren;
     }
 }
