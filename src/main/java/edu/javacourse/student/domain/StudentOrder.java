@@ -3,6 +3,7 @@ package edu.javacourse.student.domain;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author Kovalyov Anton 20.05.2022
@@ -70,6 +71,8 @@ public class StudentOrder {
     private RegisterOffice registerOffice;
     @Column(name = "marriage_date")
     private LocalDate marriageDate;
+    @OneToMany(cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.LAZY, mappedBy = "studentOrder")
+    private List<Child> children;
 
     public Long getStudentOrderId() {
         return studentOrderId;
@@ -133,5 +136,13 @@ public class StudentOrder {
 
     public void setMarriageDate(LocalDate marriageDate) {
         this.marriageDate = marriageDate;
+    }
+
+    public List<Child> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Child> children) {
+        this.children = children;
     }
 }

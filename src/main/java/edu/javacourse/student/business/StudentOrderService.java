@@ -1,10 +1,7 @@
 package edu.javacourse.student.business;
 
 import edu.javacourse.student.dao.*;
-import edu.javacourse.student.domain.Address;
-import edu.javacourse.student.domain.Adult;
-import edu.javacourse.student.domain.Street;
-import edu.javacourse.student.domain.StudentOrder;
+import edu.javacourse.student.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +32,8 @@ public class StudentOrderService {
     private CountryAreaRepository daoCountryArea;
     @Autowired
     private UniversityRepository daoUniversity;
+    @Autowired
+    private ChildRepository childRepository;
 
 
     @Transactional
@@ -51,11 +50,15 @@ public class StudentOrderService {
         studentOrder.setMarriageDate(LocalDate.now());
 
         daoOrder.save(studentOrder);
+
+        childRepository.save(buildChild(studentOrder));
     }
     @Transactional
     public void testGet() {
         List<StudentOrder> studentOrders = daoOrder.findAll();
         LOGGER.info(studentOrders.get(0).getWife().getGivenName());
+        LOGGER.info(studentOrders.get(0).getChildren().get(0).getGivenName());
+
     }
 
     private Adult buildPerson(boolean wife) {
@@ -94,5 +97,30 @@ public class StudentOrderService {
         }
 
         return adult;
+    }
+    private Child buildChild(StudentOrder studentOrder) {
+        Child child = new Child();
+        child.setDateOfBirth(LocalDate.now());
+
+        Address address = new Address();
+        address.setPostCode("190000");
+        address.setBuilding("21");
+        address.setExtension("B");
+        address.setApartment("190");
+        child.setAddress(address);
+        Street street = daoStreet.getById(1L);
+        address.setStreet(street);
+
+        child.setSurName("Рюрик");
+        child.setGivenName("Дмитрий");
+        child.setPatronymic("Иванович");
+
+        child.setCertificateDate(LocalDate.now());
+        child.setCertificateNumber("BIRTH NUM");
+        child.setRegisterOffice(daoRegisterOffice.getById(1L));
+
+        child.setStudentOrder(studentOrder);
+
+        return child;
     }
 }
